@@ -52,7 +52,11 @@ def set_picture_format(filename: str, frmt: str):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        file = request.files['file']
+        try:
+            file = request.files['file']
+        except:
+            return "<h1>Try again, *.mp3 file pls</h1>"
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
 
@@ -62,19 +66,19 @@ def upload_file():
             y = get_freq_from_music(filepath)
 
             pic_path = save_music_ft_picture(y, filename, "png")
+            pic_path = "file:///" + pic_path.replace("\\", "/")
             return f'''
 <!doctype html>
 <head>
 <meta charset="utf-8">
-    <title>Picture</title>
+  <title>Picture</title>
 </head>
 <body>
-    <img src="{pic_path}" />
+  <img src="{pic_path}"  alt="picture"/>
 </body>
 </html>
  '''
 
-        return "<h1>Try again, *.mp3 file pls</h1>"
     return '''
     <!doctype html>
     <title>Upload new File</title>
