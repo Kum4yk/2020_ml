@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-upload_folder = os.path.abspath(os.getcwd()) + os.path.sep + 'uploads'
+upload_folder = os.path.abspath(os.getcwd()) + os.path.sep + 'uploads' + os.path.sep
 allowed_extension = {"mp3", }
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = upload_folder
@@ -15,12 +15,6 @@ app.config['UPLOAD_FOLDER'] = upload_folder
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
-
-
-# @app.route('/uploads/<filename>')
-# def uploaded_file(filename):
-#     return send_from_directory(app.config['UPLOAD_FOLDER'],
-#                                filename)
 
 
 def get_freq_from_music(file):
@@ -32,7 +26,7 @@ def get_freq_from_music(file):
     return y_db_max
 
 
-def save_music_ft_picture(y, file_name):
+def save_music_ft_picture(y, file_name, format):
     figure = plt.figure()
 
     librosa.display.specshow(
@@ -44,8 +38,11 @@ def save_music_ft_picture(y, file_name):
     plt.title(f'Power spectrogram of {file_name}')
     plt.colorbar(format='%+2.0f dB')
     plt.tight_layout()
-    result_path = upload_folder + os.path.sep + file_name
+
+    file_name = set_picture_format(file_name, format)
+    result_path = upload_folder + file_name
     figure.savefig(result_path)
+    return result_path
 
 
 def set_picture_format(filename: str, frmt: str):
@@ -64,8 +61,7 @@ def upload_file():
             file.save(filepath)
             y = get_freq_from_music(filepath)
 
-            picture_name = set_picture_format(filename, "png")
-            save_music_ft_picture(y, picture_name)
+            pic_path = save_music_ft_picture(y, filename, "png")
             return f'''
 <!doctype html>
 <head>
@@ -73,7 +69,7 @@ def upload_file():
     <title>Picture</title>
 </head>
 <body>
-    <img src="uploads/{picture_name}" />
+    <img src="{pic_path}" />
 </body>
 </html>
  '''
