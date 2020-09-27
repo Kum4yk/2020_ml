@@ -60,7 +60,10 @@ def upload_file():
         except:
             return "<h1>Try again, *.mp3 file pls</h1>"
 
-        if file and allowed_file(file.filename):
+        if not allowed_file(file.filename):
+            return "<h1>Try again, *.mp3 file pls</h1>"
+
+        if file:
             filename = secure_filename(file.filename)
             filepath = os.path.join(upload_folder, filename)
 
@@ -74,4 +77,4 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    app.run(port=8000)
