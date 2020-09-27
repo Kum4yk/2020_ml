@@ -13,3 +13,6 @@
 1. <code>pip install -r requirements.txt</code>
 2. Install [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases)
     1. Add path to FFmpeg/bin to glopal environment PATH 
+
+
+**Через Anaconda ffmpeg ставится и работает без проблем, а через pip нет.**
