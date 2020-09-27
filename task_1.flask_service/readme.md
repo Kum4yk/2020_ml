@@ -14,5 +14,8 @@
 2. Install [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases)
     1. Add path to FFmpeg/bin to glopal environment PATH 
 
+Или
 
-**Через Anaconda ffmpeg ставится и работает без проблем, а через pip нет.**
+1. <code>conda install flask werkzeug librosa matplotlib numpy ffmpeg</code>
+
+**Через Anaconda ffmpeg ставится и работает без проблем, а напрямую через pip нет.**
